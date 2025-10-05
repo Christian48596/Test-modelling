@@ -1,0 +1,126 @@
+===================================================
+🛠 FORTRAN TASKS — MODULE EXTENSION PROJECT
+===================================================
+
+This task sheet will guide you through EXTENDING the existing
+modular Fortran program you are working with.
+
+It already:
+  ✅ Reads a list of numbers from 'input.dat'
+  ✅ Calculates the average and standard deviation
+  ✅ Writes results to 'output.dat'
+
+Your goal: LEARN and APPLY new Fortran concepts (FUNCTION, SUBROUTINE, MODULE)
+by extending this project.
+
+---------------------------------------------------
+📁 Project Files:
+  main.f90       - The main program
+  mystats.f90    - The module StatsModule
+  input.dat      - The input file
+  output.dat     - The output (written by program)
+
+⚠ Do NOT create a new program. Modify and extend the existing one.
+---------------------------------------------------
+
+🔧 TASK 1: ADD A FUNCTION TO COMPUTE THE MAXIMUM VALUE
+---------------------------------------------------
+
+1. Inside the existing module `StatsModule` (in mystats.f90), 
+   write a function called `FindMax`:
+
+     REAL FUNCTION FindMax(n)
+       INTEGER, INTENT(IN) :: n
+       INTEGER :: i
+       REAL :: maxval
+       maxval = NUM(1)
+       DO i = 2, n
+         IF (NUM(i) > maxval) THEN
+           maxval = NUM(i)
+         END IF
+       END DO
+       FindMax = maxval
+     END FUNCTION FindMax
+
+2. Call this function from the main program (`main.f90`) **after** the standard deviation is computed.
+3. Print the maximum value both to the screen and to the output file.
+4. Update the output format accordingly.
+
+---------------------------------------------------
+🔧 TASK 2: ADD A SUBROUTINE TO NORMALIZE THE DATA
+---------------------------------------------------
+
+1. Still in `StatsModule`, write a subroutine called `NormalizeData`
+   that replaces each number with its normalized form:
+
+     SUBROUTINE NormalizeData(n)
+       INTEGER, INTENT(IN) :: n
+       INTEGER :: i
+       DO i = 1, n
+         NUM(i) = (NUM(i) - AVG) / STD
+       END DO
+     END SUBROUTINE NormalizeData
+
+2. Call this subroutine from `main.f90` **after** writing the original stats.
+
+3. Print the normalized numbers to the output file (append to it using `POSITION='APPEND'` when reopening the file).
+
+---------------------------------------------------
+🔧 TASK 3: ADD A SECOND MODULE FOR EXTRA FUNCTIONS
+---------------------------------------------------
+
+1. Create a new file called `extras.f90`.
+2. In it, write a new module called `ExtraMath`:
+
+     MODULE ExtraMath
+       IMPLICIT NONE
+     CONTAINS
+
+       REAL FUNCTION Square(x)
+         REAL, INTENT(IN) :: x
+         Square = x * x
+       END FUNCTION Square
+
+     END MODULE ExtraMath
+
+3. In `main.f90`, add `USE ExtraMath` and call `Square(STD)` just before the program ends.
+4. Write this squared standard deviation to the output file as: `Variance = ...`
+
+---------------------------------------------------
+🏁 BONUS: Compile and Run
+---------------------------------------------------
+
+Use this command to compile your extended program:
+
+  gfortran -o stats main.f90 mystats.f90 extras.f90
+
+Run it:
+
+  ./stats
+
+Check `output.dat` for:
+
+  - Number of values
+  - Average
+  - Standard Deviation
+  - Max value
+  - Variance (square of STD)
+  - Normalized values
+
+---------------------------------------------------
+📌 Summary
+---------------------------------------------------
+
+You have extended an existing Fortran program to:
+
+  - Use your own FUNCTION (FindMax)
+  - Use a new SUBROUTINE (NormalizeData)
+  - Add and use a new MODULE (ExtraMath)
+  - Do additional file output
+
+✅ Save all changes
+✅ Comment your code
+✅ Test with your own `input.dat` files
+
+Happy coding!
+===================================================
